@@ -14,26 +14,18 @@
     ${EDITOR:-vim} "$*"
     kill %1
 
+## template:
+    ~/.mkdn.template (%s will be replaced by content)
+
 ## commands:
     c - copy source to clipboard
-    s - toggle style (~/.mkdn.css)
+    s - toggle template
     v - toggle view source
+
 '''
 
 import gio, gobject, gtk, markdown, os, warnings, webkit
 warnings.simplefilter('ignore', Warning)
-
-template = '''
-<html>
-<head>
-<title></title>
-<link href="%s/.mkdn.css" rel="stylesheet" type="text/css">
-</head>
-<body>
-%%s
-</body>
-</html>
-''' % os.environ['HOME']
 
 class Previewer(object):
 
@@ -43,10 +35,13 @@ class Previewer(object):
         self.view_style = False
         self.clipboards = [gtk.Clipboard(selection="CLIPBOARD"),
                            gtk.Clipboard(selection="PRIMARY")]
-        if os.path.exists('%s/.mkdn.css' % os.environ['HOME']):
-            self.out = template
+        if os.path.exists('%s/.mkdn.template' % os.environ['HOME']):
+            fh = open('%s/.mkdn.template' % os.environ['HOME'])
+            self.template = fh.read()
+            fh.close()
         else:
-            self.out = '%s'
+            self.template = '%s'
+        self.out = self.template
         if os.path.isfile(self.path):
             fh = open(self.path)
             self.html = markdown.markdown(fh.read())
@@ -76,7 +71,7 @@ class Previewer(object):
 
     def key_press_s(self):
         self.view_style = not self.view_style
-        self.out = { True: template, False: '%s' }[self.view_style]
+        self.out = { True: self.template, False: '%s' }[self.view_style]
         self.view.load_html_string(self.out % self.html, 'file:///')
 
     def key_press_v(self):
