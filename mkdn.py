@@ -21,7 +21,6 @@
     c - copy source to clipboard
     s - toggle template
     v - toggle view source
-
 '''
 
 import gio, gobject, gtk, markdown, os, warnings, webkit

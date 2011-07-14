@@ -21,4 +21,3 @@
     s - toggle template
     v - toggle view source
 
-
