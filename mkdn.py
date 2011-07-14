@@ -15,9 +15,9 @@
     kill %1
 
 ## commands:
-    v - toggle view source
     c - copy source to clipboard
     s - toggle style (~/.mkdn.css)
+    v - toggle view source
 '''
 
 import gio, gobject, gtk, markdown, os, warnings, webkit
