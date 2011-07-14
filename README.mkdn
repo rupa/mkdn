@@ -13,8 +13,12 @@
     ${EDITOR:-vim} "$*"
     kill %1
 
+## template:
+    ~/.mkdn.template (%s will be replaced by content)
+
 ## commands:
     c - copy source to clipboard
-    s - toggle style (~/.mkdn.css)
+    s - toggle template
     v - toggle view source
+
 
