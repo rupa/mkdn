@@ -21,6 +21,7 @@
     c - copy source to clipboard
     s - toggle template
     v - toggle view source
+    any other key will reset the window
 '''
 
 import gio, gobject, gtk, markdown, os, warnings, webkit
@@ -64,6 +65,13 @@ class Previewer(object):
         func = getattr(self, 'key_press_' + keyname, None)
         if func:
             return func()
+        else:
+            self.view.load_html_string(self.out % self.html, 'file:///')
+
+    def key_press_b(self):
+        self.view.go_back()
+        for i in dir(self.view):
+            print i
 
     def key_press_c(self):
         for clipboard in self.clipboards:

@@ -20,4 +20,5 @@
     c - copy source to clipboard
     s - toggle template
     v - toggle view source
+    any other key will reset the window
 
