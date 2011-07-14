@@ -32,15 +32,16 @@ class Previewer(object):
     def __init__(self, path):
         self.path = os.path.realpath(path)
         self.view_source = False
-        self.view_style = False
         self.clipboards = [gtk.Clipboard(selection="CLIPBOARD"),
                            gtk.Clipboard(selection="PRIMARY")]
         if os.path.isfile('%s/.mkdn.template' % os.environ['HOME']):
             fh = open('%s/.mkdn.template' % os.environ['HOME'])
             self.template = fh.read()
             fh.close()
+            self.view_template = True
         else:
             self.template = '%s'
+            self.view_template = False
         self.out = self.template
         if os.path.isfile(self.path):
             fh = open(self.path)
@@ -70,8 +71,8 @@ class Previewer(object):
             clipboard.set_text(self.html)
 
     def key_press_s(self):
-        self.view_style = not self.view_style
-        self.out = { True: self.template, False: '%s' }[self.view_style]
+        self.view_template = not self.view_template
+        self.out = { True: self.template, False: '%s' }[self.view_template]
         self.view.load_html_string(self.out % self.html, 'file:///')
 
     def key_press_v(self):
