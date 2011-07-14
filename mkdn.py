@@ -35,7 +35,7 @@ class Previewer(object):
         self.view_style = False
         self.clipboards = [gtk.Clipboard(selection="CLIPBOARD"),
                            gtk.Clipboard(selection="PRIMARY")]
-        if os.path.exists('%s/.mkdn.template' % os.environ['HOME']):
+        if os.path.isfile('%s/.mkdn.template' % os.environ['HOME']):
             fh = open('%s/.mkdn.template' % os.environ['HOME'])
             self.template = fh.read()
             fh.close()
