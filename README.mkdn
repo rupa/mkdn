@@ -1,0 +1,20 @@
+
+# markdown previewer
+(requires pywebkitgtk)
+
+## cli:
+    mkdn.py <file>
+
+## in vim:
+    :!mkdn.py % &
+
+## wrap it in a shell script:
+    mkdn.py "$*" &
+    ${EDITOR:-vim} "$*"
+    kill %1
+
+## commands:
+    v - toggle view source
+    c - copy source to clipboard
+    s - toggle style (~/.mkdn.css)
+
