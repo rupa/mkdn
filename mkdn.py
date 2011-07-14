@@ -94,12 +94,18 @@ class Previewer(object):
         gtk.main()
 
 if __name__ == '__main__':
-    import sys
+    import glob, sys
     args = ' '.join(sys.argv[1:])
     if not args:
+        fls = glob.glob('README*')
+        if fls:
+            args = fls[0]
+    if not args or args in ['-h', '--help']:
         print __doc__
+        sys.exit(1)
     else:
         try:
             Previewer(args).run()
         except KeyboardInterrupt:
             pass
+        sys.exit(0)
