@@ -24,7 +24,7 @@
     any other key will reset the window
 '''
 
-import gio, gobject, gtk, markdown, os, warnings, webkit
+import codecs, gio, gobject, gtk, markdown, os, warnings, webkit
 warnings.simplefilter('ignore', Warning)
 
 class Previewer(object):
@@ -45,7 +45,7 @@ class Previewer(object):
         self.out = self.template
         if os.path.isfile(self.path):
             fh = open(self.path)
-            self.html = markdown.markdown(fh.read())
+            self.html = markdown.markdown(fh.read().lstrip(codecs.BOM_UTF8))
             fh.close()
         else:
             self.html = ''
@@ -55,7 +55,8 @@ class Previewer(object):
             self.view.load_html_string('', 'file:///')
         elif kind == gio.FILE_MONITOR_EVENT_CHANGES_DONE_HINT:
             try:
-                self.html = markdown.markdown(fl.load_contents()[0])
+                self.html = fl.load_contents()[0].lstrip(codecs.BOM_UTF8)
+                self.html = markdown.markdown(self.html)
             except:
                 return
             self.view.load_html_string(self.out % self.html, 'file:///')
